@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "netty.port",
+      "type": "java.lang.Integer",
+      "description": " 本地netty端口号 netty.port."
+    }
+  ]
+}

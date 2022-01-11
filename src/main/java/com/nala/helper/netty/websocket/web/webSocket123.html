@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>123</title>
+</head>
+<body>
+
+<div style="border: 1px darkgreen solid; width: 500px;height: 200px" id="msg">
+
+</div>
+<div>
+  <label for="friend">好友账号</label><input id="friend" value="456" style="width: 114px" placeholder="好友账号" type="text"/>
+  <label for="content"></label><input type="text" placeholder="请输入内容" id="content"/>
+  <button id="submit" onclick="send()">send</button>
+</div>
+
+<script>
+  const accId = "123";
+  const socket = new WebSocket("ws://localhost:888");
+  let msg = document.getElementById('msg')
+  // 建立连接
+  socket.onopen = function () {
+    let login = {
+      "accId": accId,
+      "type": "login",
+      "to": "sys"
+    };
+    socket.send(JSON.stringify(login))
+  }
+
+  // 接收消息
+  socket.onmessage = function (event) {
+    let obj = JSON.parse(event.data)
+    let content = obj.content;
+    let time = "<span style='padding-left:30px;font-size: 8px'>" + obj.time + "</span>";
+    let before = msg.innerHTML ? msg.innerHTML : "";
+    if (obj.from === 'sys') {
+      msg.innerHTML = before + content + time
+    } else {
+      msg.innerHTML = before + "<div>番茄：" + content + time + "</div>"
+    }
+  }
+
+  // 连接关闭
+  socket.onclose = function () {
+    msg.innerHTML = msg.innerHTML + "<div>连接已关闭...</div>"
+  }
+
+  // 连接异常
+  socket.onerror = function () {
+    msg.innerHTML = msg.innerHTML ? msg.innerHTML + "<div>服务器异常</div>" : "服务器异常"
+  }
+
+  // 消息发送
+  function send() {
+    let text = document.getElementById('content');
+    let friend = document.getElementById('friend');
+    let content = {
+      "content": text.value,
+      "type": "msg",
+      "to": friend.value
+    };
+    if (text.value) {
+      socket.send(JSON.stringify(content));
+      msg.innerHTML = msg.innerHTML + "<div style='color:cornflowerblue;'>我：" + text.value + "</div>"
+      // 清空输入框
+      text.value = ""
+    }
+  }
+
+  // 键盘回车绑定
+  document.onkeypress = function (e) {
+    if (e.key === "Enter") {
+      document.getElementById("submit").click();
+    }
+  }
+</script>
+</body>
+</html>

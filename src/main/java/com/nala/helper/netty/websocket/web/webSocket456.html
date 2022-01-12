@@ -30,13 +30,13 @@
 
 
 <script>
-  const accId = "456";
+  const phone = "456";
   const socket = new WebSocket("ws://localhost:888");
   let msg = document.getElementById('msg')
   // 建立连接
   socket.onopen = function () {
     let login = {
-      "accId": accId,
+      "phone": phone,
       "type": "login",
       "to": "sys"
     };
@@ -94,19 +94,24 @@
     }
   }
 
+  // 创建备忘
   function createNote() {
     $.ajax({
+      headers: {
+        "content-Type": "application/json;charset=utf-8"
+      },
       type: "post",
       url: "http://localhost:666/nala/note/add",
-      data: {
+      data: JSON.stringify({
         "content": $("#note").val(),
         "notifyTime": new Date($("#notify").val()),
         "status": 0,
-        "accId": accId
-      },
+        "phone": phone
+      }),
       success: function (res) {
         if (res.result) {
           noteList()
+          alert("创建成功！")
         }
       },
       error: function (res) {
@@ -115,21 +120,21 @@
     })
   }
 
-  onload = function () {
-    noteList()
-  }
-
+  // 备忘列表
   function noteList() {
     $.ajax({
+      headers: {
+        "content-Type": "application/json;charset=utf-8"
+      },
       type: "post",
       url: "http://localhost:666/nala/note/list",
-      data: {
-        "status": 1,// 每次只查询一种状态的列表
+      data: JSON.stringify({
+        "status": 0,// 每次只查询一种状态的列表
         "keyword": "",
-        "accId": accId
-      },
+        "phone": phone
+      }),
       success: function (res) {
-        let noteList = res.model.list
+        let noteList = res.model
         let noteHtml = ""
         noteList.forEach(note => {
           noteHtml = noteHtml + "<li>" + note.content + "   " + note.notifyTime + "</li>"
@@ -140,6 +145,11 @@
         alert(JSON.parse(res))
       }
     })
+  }
+
+  // 页面加载
+  onload = function () {
+    noteList()
   }
 </script>
 

@@ -140,13 +140,13 @@ public class WebsocketServerHandler extends SimpleChannelInboundHandler<Object> 
             String type = message.getString("type");
             // 登录信息
             if (MsgType.LOGIN.getKey().equals(type)) {
-                String accId = message.getString("accId");
+                String phone = message.getString("phone");
                 // 存入缓存
-                CHANNEL_MAP.put(accId, channel);
-                USER_MAP.put(ctx.channel().id().asLongText(), accId);
+                CHANNEL_MAP.put(phone, channel);
+                USER_MAP.put(ctx.channel().id().asLongText(), phone);
 
                 // 检测是否需要提醒备忘录
-                List<NoteVO> notifyList = notifyService.notify(accId);
+                List<NoteVO> notifyList = notifyService.notify(phone);
                 if (CollectionUtils.isNotEmpty(notifyList)) {
                     StringBuilder content = new StringBuilder();
                     Iterator<NoteVO> iterator = notifyList.iterator();

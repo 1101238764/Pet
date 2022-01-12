@@ -50,8 +50,8 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         if (StringUtils.isNotBlank(condition.getKeyword())) {
             wrapper.like("content", condition.getKeyword());
         }
-        if (StringUtils.isNotBlank(condition.getAccId())) {
-            wrapper.eq("phone", condition.getAccId());
+        if (StringUtils.isNotBlank(condition.getPhone())) {
+            wrapper.eq("phone", condition.getPhone());
         }
         wrapper.orderByDesc("update_time");
         List<Note> list = list(wrapper);
@@ -76,24 +76,24 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     }
 
     @Override
-    public List<NoteVO> noteList(String accId) {
+    public List<NoteVO> noteList(String phone) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        wrapper.eq("phone", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
+        wrapper.eq("phone", phone).eq("status", NoteStatus.TO_BE_DONE.getValue());
         List<Note> list = list(wrapper);
         return getNoteVoList(list);
     }
 
     @Override
-    public int count(String accId) {
+    public int count(String phone) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        wrapper.eq("phone", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
+        wrapper.eq("phone", phone).eq("status", NoteStatus.TO_BE_DONE.getValue());
         return count(wrapper);
     }
 
     @Override
-    public HashMap<String, Integer> countByStatus(String accId) {
+    public HashMap<String, Integer> countByStatus(String phone) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        wrapper.eq("phone", accId);
+        wrapper.eq("phone", phone);
         List<Note> list = list(wrapper);
         HashMap<String, Integer> count = new HashMap<>(4);
         for (Note note : list) {

@@ -11,4 +11,6 @@ public interface Symbol {
     String SHORT_LINE = "-";
 
     int ONE = 1;
+
+    int ZERO = 0;
 }

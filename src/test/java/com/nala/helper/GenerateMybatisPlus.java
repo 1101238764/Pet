@@ -1,18 +1,24 @@
 package com.nala.helper;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.FileOutConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * @author 彭术成
@@ -20,6 +26,23 @@ import org.apache.commons.lang3.StringUtils;
  */
 
 public class GenerateMybatisPlus {
+
+    public static String url;
+    public static String driverName;
+    public static String username;
+    public static String password;
+
+    static {
+        Yaml yaml = new Yaml();
+        LinkedHashMap<?, ?> yml =
+                yaml.loadAs(GenerateMybatisPlus.class.getResourceAsStream("/application.yml"), LinkedHashMap.class);
+        LinkedHashMap<?, ?> datasourceInfo =
+                (LinkedHashMap<?, ?>) ((LinkedHashMap<?, ?>) yml.get("spring")).get("datasource");
+        url = datasourceInfo.get("url").toString();
+        driverName = datasourceInfo.get("driver-class-name").toString();
+        username = datasourceInfo.get("username").toString();
+        password = datasourceInfo.get("password").toString();
+    }
 
     /**
      * 读取控制台内容
@@ -50,10 +73,10 @@ public class GenerateMybatisPlus {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://192.168.142.78:3306/utils?userUnicode=true&characterEncoding=utf8&pinGlobalTxToPhysicalConnection=true");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("1234");
+        dsc.setUrl(url);
+        dsc.setDriverName(driverName);
+        dsc.setUsername(username);
+        dsc.setPassword(password);
         mpg.setDataSource(dsc);
         // 包配置
         PackageConfig pc = new PackageConfig();
@@ -113,5 +136,4 @@ public class GenerateMybatisPlus {
         // 执行
         mpg.execute();
     }
-
 }

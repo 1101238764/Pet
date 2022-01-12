@@ -45,24 +45,24 @@ public interface INoteService extends IService<Note> {
     /**
      * 查询待处理备忘
      *
-     * @param accId 账号
+     * @param phone 账号
      * @return 备忘列表
      */
-    List<NoteVO> noteList(String accId);
+    List<NoteVO> noteList(String phone);
 
     /**
      * 代办数量提醒
      *
-     * @param accId 账号
+     * @param phone 账号
      * @return 代办数
      */
-    int count(String accId);
+    int count(String phone);
 
     /**
      * 备忘数量
      *
-     * @param accId os手机号
+     * @param phone os手机号
      * @return 备忘数量集合
      */
-    HashMap<String, Integer> countByStatus(String accId);
+    HashMap<String, Integer> countByStatus(String phone);
 }

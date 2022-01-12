@@ -3,26 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>123</title>
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 </head>
+
 <body>
+<div>
+  <div style="border: 1px darkgreen solid; width: 500px;height: 200px" id="msg"></div>
+  <span
+      style="border: 1px darkgreen solid; width: 100px;height: 100px;top: 8px;position:absolute;margin-left: 505px">op</span>
+</div>
 
-<div style="border: 1px darkgreen solid; width: 500px;height: 200px" id="msg">
-
+<div>
+  <label for="friend">好友账号</label><input value="456" id="friend" placeholder="好友账号" style="width: 114px" type="text"/>
+  <label for="content"></label><input type="text" placeholder="请输入内容" id="content"/>
+  <button id="submit" onclick="send()" style="background-color: greenyellow">发送</button>
 </div>
 <div>
-  <label for="friend">好友账号</label><input id="friend" value="456" style="width: 114px" placeholder="好友账号" type="text"/>
-  <label for="content"></label><input type="text" placeholder="请输入内容" id="content"/>
-  <button id="submit" onclick="send()">send</button>
+  <label><input id="note" type="text" placeholder="今天需要做什么?"></label>
+  <label><input id="notify" type="datetime-local" placeholder="定时提醒"></label>
+  <input type="submit" style="background-color: #54ffb0" onclick="createNote()" value="新建">
+  <h2>我的备忘录</h2>
+  <ul id="noteList">
+  </ul>
+
 </div>
 
+
 <script>
-  const accId = "123";
+  const phone = "123";
   const socket = new WebSocket("ws://localhost:888");
   let msg = document.getElementById('msg')
   // 建立连接
   socket.onopen = function () {
     let login = {
-      "accId": accId,
+      "phone": phone,
       "type": "login",
       "to": "sys"
     };
@@ -36,9 +50,13 @@
     let time = "<span style='padding-left:30px;font-size: 8px'>" + obj.time + "</span>";
     let before = msg.innerHTML ? msg.innerHTML : "";
     if (obj.from === 'sys') {
-      msg.innerHTML = before + content + time
+      if (obj.type === 'note') {
+        alert(content + "\n" + "记得做哦。")
+      } else {
+        msg.innerHTML = before + content + time;
+      }
     } else {
-      msg.innerHTML = before + "<div>番茄：" + content + time + "</div>"
+      msg.innerHTML = before + "<div>樱桃：" + content + time + "</div>"
     }
   }
 
@@ -75,6 +93,65 @@
       document.getElementById("submit").click();
     }
   }
+
+  // 创建备忘
+  function createNote() {
+    $.ajax({
+      headers: {
+        "content-Type": "application/json;charset=utf-8"
+      },
+      type: "post",
+      url: "http://localhost:666/nala/note/add",
+      data: JSON.stringify({
+        "content": $("#note").val(),
+        "notifyTime": new Date($("#notify").val()),
+        "status": 0,
+        "phone": phone
+      }),
+      success: function (res) {
+        if (res.result) {
+          noteList()
+          alert("创建成功！")
+        }
+      },
+      error: function (res) {
+        alert(res.result)
+      }
+    })
+  }
+
+  // 备忘列表
+  function noteList() {
+    $.ajax({
+      headers: {
+        "content-Type": "application/json;charset=utf-8"
+      },
+      type: "post",
+      url: "http://localhost:666/nala/note/list",
+      data: JSON.stringify({
+        "status": 0,// 每次只查询一种状态的列表
+        "keyword": "",
+        "phone": phone
+      }),
+      success: function (res) {
+        let noteList = res.model
+        let noteHtml = ""
+        noteList.forEach(note => {
+          noteHtml = noteHtml + "<li>" + note.content + "   " + note.notifyTime + "</li>"
+        })
+        $("#noteList").html(noteHtml)
+      },
+      error: function (res) {
+        alert(JSON.parse(res))
+      }
+    })
+  }
+
+  // 页面加载
+  onload = function () {
+    noteList()
+  }
 </script>
+
 </body>
 </html>

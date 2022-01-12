@@ -14,8 +14,8 @@ public interface NoteNotifyService {
     /**
      * 用户备忘录提醒
      *
-     * @param accId 账号
+     * @param phone 账号
      * @return 处理结果
      */
-    List<NoteVO> notify(String accId);
+    List<NoteVO> notify(String phone);
 }

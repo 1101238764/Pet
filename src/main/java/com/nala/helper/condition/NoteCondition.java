@@ -20,5 +20,5 @@ public class NoteCondition implements Serializable {
     private Integer status;
 
     @ApiModelProperty("os 手机号（必传）")
-    private String accId;
+    private String phone;
 }

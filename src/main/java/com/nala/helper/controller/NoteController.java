@@ -59,8 +59,8 @@ public class NoteController {
 
     @PostMapping("/count")
     @ApiOperation("不同状态的备忘数量")
-    public ResultVO<HashMap<String, Integer>> countByStatus(@RequestParam("accId") String accId) {
-        HashMap<String, Integer> count = service.countByStatus(accId);
+    public ResultVO<HashMap<String, Integer>> countByStatus(@RequestParam("phone") String phone) {
+        HashMap<String, Integer> count = service.countByStatus(phone);
         return ResultUtil.success(count);
     }
 

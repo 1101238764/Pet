@@ -4,7 +4,18 @@ spring:
     url: jdbc:mysql://106.55.153.91:30001/simba_mls?allowMultiQueries=true&userUnicode=true&characterEncoding=utf8&pinGlobalTxToPhysicalConnection=true&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: erp_test
-    password:  testTn_2021
+    password: testTn_2021
+    # HikariPool 配置
+    hikari:
+      connection-timeout: 60000
+      max-lifetime: 60000
+      validation-timeout: 3000
+      idle-timeout: 30000
+      login-timeout: 5
+      maximum-pool-size: 100
+      minimum-idle: 10
+      read-only: false
+      catalog:
 
 # web服务端口
 server:
@@ -13,3 +24,7 @@ server:
 # netty服务端口
 netty:
   port: 888
+
+
+
+

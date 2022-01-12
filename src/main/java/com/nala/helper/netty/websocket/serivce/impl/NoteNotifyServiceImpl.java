@@ -34,7 +34,7 @@ public class NoteNotifyServiceImpl implements NoteNotifyService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<NoteVO> notify(String accId) {
+    public List<NoteVO> notify(String phone) {
         List<NoteVO> voList = new ArrayList<>();
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime tomorrow = today.plusDays(Symbol.ONE);
@@ -42,8 +42,8 @@ public class NoteNotifyServiceImpl implements NoteNotifyService {
             // 锁资源
             boolean lock = lockService.lock(LOCK, tomorrow.toInstant(ZoneOffset.of("+8")).toEpochMilli());
             if (lock) {
-                if (noteService.count(accId) > 0) {
-                    voList = noteService.noteList(accId);
+                if (noteService.count(phone) > 0) {
+                    voList = noteService.noteList(phone);
                 }
             }
         } catch (Exception e) {

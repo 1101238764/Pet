@@ -3,16 +3,19 @@ package com.nala.helper.controller;
 
 import com.nala.helper.condition.FavorCondition;
 import com.nala.helper.service.IFavorService;
+import com.nala.helper.utils.ResultUtil;
 import com.nala.helper.vo.FavorVO;
+import com.nala.helper.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,32 +35,32 @@ public class FavorController {
 
     @PostMapping("/collect")
     @ApiOperation("收藏")
-    public boolean collect(@RequestBody FavorCondition condition) {
-        return service.collect(condition);
+    public ResultVO<Boolean> collect(@RequestBody FavorCondition condition) {
+        return ResultUtil.success(service.collect(condition));
     }
 
     @PostMapping("/remove")
     @ApiOperation("删除收藏")
-    public boolean remove(@RequestBody FavorCondition condition) {
-        return service.removeById(condition.getId());
+    public ResultVO<Boolean> remove(@RequestBody FavorCondition condition) {
+        return ResultUtil.success(service.removeById(condition.getId()));
     }
 
     @PostMapping("/edit")
     @ApiOperation("编辑收藏")
-    public boolean edit(@RequestBody FavorCondition condition) {
-        return service.edit(condition);
+    public ResultVO<Boolean> edit(@RequestBody FavorCondition condition) {
+        return ResultUtil.success(service.edit(condition));
     }
 
     @PostMapping("/list")
     @ApiOperation("收藏列表")
-    public List<FavorVO> list(@RequestBody FavorCondition condition) {
-        return service.list(condition);
+    public ResultVO<List<FavorVO>> list(@RequestBody FavorCondition condition) {
+        return ResultUtil.success(service.list(condition));
     }
 
 
     @PostMapping("/listByType")
     @ApiOperation("分类收藏列表")
-    public Map<String, List<FavorVO>> listByType(@RequestBody FavorCondition condition) {
-        return service.listByType(condition);
+    public ResultVO<Map<String, List<FavorVO>>> listByType(@RequestBody FavorCondition condition) {
+        return ResultUtil.success(service.listByType(condition));
     }
 }

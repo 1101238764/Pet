@@ -2,12 +2,15 @@ package com.nala.helper.controller;
 
 
 import com.nala.helper.service.IPoemService;
+import com.nala.helper.utils.ResultUtil;
+import com.nala.helper.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -26,14 +29,14 @@ public class PoemController {
     private IPoemService service;
 
     @GetMapping("/put")
-    @ApiOperation("爬取诗句")
+    @ApiOperation(value = "爬取诗句")
     public boolean saveWords() throws Exception {
         return service.savePoem();
     }
 
     @GetMapping("/getPoem")
     @ApiOperation("吟诗一首")
-    public String get() {
-        return service.get();
+    public ResultVO<String> get() {
+        return ResultUtil.success(service.get());
     }
 }

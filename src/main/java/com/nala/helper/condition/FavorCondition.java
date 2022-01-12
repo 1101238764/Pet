@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * todo 描述当前类的功能
+ * 收藏查询条件
  *
  * @author 彭术成
  * @since 2021/12/27
@@ -24,13 +24,13 @@ public class FavorCondition implements Serializable {
     /**
      * os账号
      */
-    @ApiModelProperty("os账号")
+    @ApiModelProperty("os 手机号")
     private String accountId;
 
     /**
      * 内容类型
      */
-    @ApiModelProperty("内容类型")
+    @ApiModelProperty("内容类型（暂时可不传）")
     private String type;
 
     /**

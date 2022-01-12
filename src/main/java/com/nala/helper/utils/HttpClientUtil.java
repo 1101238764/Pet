@@ -127,7 +127,7 @@ public class HttpClientUtil {
     /**
      * 发送Get请求
      */
-    public static HttpMethodBase sendGetRequest( String url) {
+    public static HttpMethodBase sendGetRequest(String url) {
         try {
             HttpClient httpClient = getHttpClient();
             GetMethod method = new GetMethod(url);

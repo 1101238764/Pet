@@ -6,15 +6,14 @@ import com.nala.helper.utils.ResultUtil;
 import com.nala.helper.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-
 /**
  * <p>
- * 前端控制器
+ * 诗句 前端控制器
  * </p>
  *
  * @author 彭术成

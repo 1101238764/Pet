@@ -53,6 +53,6 @@ public class Note implements Serializable {
     @ApiModelProperty("状态 0 草稿 1 待执行  2 已完成 -1 删除")
     private Integer status;
 
-    @ApiModelProperty("os账号")
-    private String accId;
+    @ApiModelProperty("os 手机号")
+    private String phone;
 }

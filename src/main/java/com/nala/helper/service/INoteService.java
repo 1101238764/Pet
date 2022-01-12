@@ -3,8 +3,8 @@ package com.nala.helper.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nala.helper.condition.NoteCondition;
 import com.nala.helper.pojo.Note;
-import com.nala.helper.vo.NoteListVO;
 import com.nala.helper.vo.NoteVO;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ public interface INoteService extends IService<Note> {
      * @param condition 查询条件
      * @return 备忘录列表
      */
-    NoteListVO list(NoteCondition condition);
+    List<NoteVO> list(NoteCondition condition);
 
     /**
      * 查询待处理备忘
@@ -57,4 +57,12 @@ public interface INoteService extends IService<Note> {
      * @return 代办数
      */
     int count(String accId);
+
+    /**
+     * 备忘数量
+     *
+     * @param accId os手机号
+     * @return 备忘数量集合
+     */
+    HashMap<String, Integer> countByStatus(String accId);
 }

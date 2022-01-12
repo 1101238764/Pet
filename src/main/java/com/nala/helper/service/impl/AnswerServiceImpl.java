@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 彭术成
@@ -22,7 +22,7 @@ public class AnswerServiceImpl extends ServiceImpl<AnswerMapper, Answer> impleme
     @Override
     public List<Answer> queryAnswersById(Integer questionId) {
         QueryWrapper<Answer> wrapper = new QueryWrapper<>();
-        wrapper.eq("question_id",questionId);
+        wrapper.eq("question_id", questionId);
         return list(wrapper);
     }
 }

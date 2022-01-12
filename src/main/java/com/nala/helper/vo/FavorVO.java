@@ -27,8 +27,8 @@ public class FavorVO implements Serializable {
     /**
      * os账号
      */
-    @ApiModelProperty("os账号")
-    private String accountId;
+    @ApiModelProperty("os 手机号")
+    private String phone;
 
     /**
      * 内容类型

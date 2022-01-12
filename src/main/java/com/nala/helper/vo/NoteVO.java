@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,6 +56,4 @@ public class NoteVO implements Serializable {
     @ApiModelProperty("状态 0 草稿 1 待执行  2 已完成 -1 删除")
     private Integer status;
 
-    @ApiModelProperty("key：状态 ,value: 数量")
-    private HashMap<Integer, Integer> count;
 }

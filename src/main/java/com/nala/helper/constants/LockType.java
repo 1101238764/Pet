@@ -8,6 +8,9 @@ package com.nala.helper.constants;
  */
 public interface LockType {
 
+    /**
+     * 备忘录通知锁
+     */
     String NOTE_NOTIFY_LOCK = "NOTE_NOTIFY_LOCK";
 
 }

@@ -3,12 +3,10 @@ package com.nala.helper.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nala.helper.condition.NoteCondition;
-import com.nala.helper.constants.Symbol;
 import com.nala.helper.enums.NoteStatus;
 import com.nala.helper.mapper.NoteMapper;
 import com.nala.helper.pojo.Note;
 import com.nala.helper.service.INoteService;
-import com.nala.helper.vo.NoteListVO;
 import com.nala.helper.vo.NoteVO;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +42,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     }
 
     @Override
-    public NoteListVO list(NoteCondition condition) {
+    public List<NoteVO> list(NoteCondition condition) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
         if (condition.getStatus() != null) {
             wrapper.eq("status", condition.getStatus());
@@ -53,29 +51,19 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
             wrapper.like("content", condition.getKeyword());
         }
         if (StringUtils.isNotBlank(condition.getAccId())) {
-            wrapper.eq("acc_id", condition.getAccId());
+            wrapper.eq("phone", condition.getAccId());
         }
         wrapper.orderByDesc("update_time");
         List<Note> list = list(wrapper);
-        if (CollectionUtils.isEmpty(list)) {
-            return new NoteListVO();
-        }
         return getNoteVoList(list);
     }
 
     @NotNull
-    private NoteListVO getNoteVoList(List<Note> list) {
+    private List<NoteVO> getNoteVoList(List<Note> list) {
         List<NoteVO> voList = new ArrayList<>();
-        HashMap<Integer, Integer> count = new HashMap<>(4);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Note note : list) {
                 Integer status = note.getStatus();
-                if (count.containsKey(status)) {
-                    Integer recCount = count.get(status);
-                    count.put(status, recCount + Symbol.ONE);
-                } else {
-                    count.put(status, Symbol.ONE);
-                }
                 NoteVO vo = NoteVO.builder()
                         .content(note.getContent())
                         .id(note.getId())
@@ -84,35 +72,38 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                 voList.add(vo);
             }
         }
-        NoteListVO vo = new NoteListVO();
-        vo.setList(voList);
-        vo.setCount(count);
-        return vo;
+        return voList;
     }
 
     @Override
     public List<NoteVO> noteList(String accId) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        wrapper.eq("acc_id", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
+        wrapper.eq("phone", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
         List<Note> list = list(wrapper);
-        List<NoteVO> voList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (Note note : list) {
-                NoteVO vo = NoteVO.builder()
-                        .content(note.getContent())
-                        .id(note.getId())
-                        .status(note.getStatus())
-                        .notifyTime(note.getNotifyTime()).build();
-                voList.add(vo);
-            }
-        }
-        return voList;
+        return getNoteVoList(list);
     }
 
     @Override
     public int count(String accId) {
         QueryWrapper<Note> wrapper = new QueryWrapper<>();
-        wrapper.eq("acc_id", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
+        wrapper.eq("phone", accId).eq("status", NoteStatus.TO_BE_DONE.getValue());
         return count(wrapper);
+    }
+
+    @Override
+    public HashMap<String, Integer> countByStatus(String accId) {
+        QueryWrapper<Note> wrapper = new QueryWrapper<>();
+        wrapper.eq("phone", accId);
+        List<Note> list = list(wrapper);
+        HashMap<String, Integer> count = new HashMap<>(4);
+        for (Note note : list) {
+            String status = note.getStatus().toString();
+            if (count.containsKey(status)) {
+                count.replace(status, count.get(status) + 1);
+            } else {
+                count.put(status, 1);
+            }
+        }
+        return count;
     }
 }

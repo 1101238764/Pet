@@ -7,16 +7,15 @@ import com.nala.helper.utils.ResultUtil;
 import com.nala.helper.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
+import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 /**
- * NALA 服务助手
+ * 聊天 服务
  *
  * @author 彭术成
  * @since 2021-12-22

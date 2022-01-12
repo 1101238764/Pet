@@ -38,7 +38,7 @@ public class FavorServiceImpl extends ServiceImpl<FavorMapper, Favor> implements
                 .id(IdWorker.getId())
                 .content(condition.getContent())
                 .type(condition.getType())
-                .accountId(condition.getAccountId())
+                .phone(condition.getAccountId())
                 .remark(condition.getRemark())
                 .createTime(new Date())
                 .updateTime(new Date())
@@ -72,7 +72,7 @@ public class FavorServiceImpl extends ServiceImpl<FavorMapper, Favor> implements
     @Override
     public Map<String, List<FavorVO>> listByType(FavorCondition condition) {
         QueryWrapper<Favor> wrapper = new QueryWrapper<>();
-        wrapper.eq("account_id", condition.getAccountId()).orderByDesc("update_time");
+        wrapper.eq("phone", condition.getAccountId()).orderByDesc("update_time");
         List<Favor> list = list(wrapper);
         Map<String, List<FavorVO>> typeMap = new HashMap<>(16);
         if (CollectionUtils.isNotEmpty(list)) {
@@ -96,7 +96,7 @@ public class FavorServiceImpl extends ServiceImpl<FavorMapper, Favor> implements
 
     private QueryWrapper<Favor> buildQueryWrapper(FavorCondition condition) {
         QueryWrapper<Favor> wrapper = new QueryWrapper<>();
-        wrapper.eq("account_id", condition.getAccountId());
+        wrapper.eq("phone", condition.getAccountId());
         if (StringUtils.isNotBlank(condition.getContent())) {
             wrapper.like("content", condition.getContent());
         }
@@ -112,7 +112,7 @@ public class FavorServiceImpl extends ServiceImpl<FavorMapper, Favor> implements
 
     private UpdateWrapper<Favor> buildUpdateWrapper(FavorCondition condition) {
         UpdateWrapper<Favor> wrapper = new UpdateWrapper<>();
-        wrapper.eq("account_id", condition.getAccountId())
+        wrapper.eq("phone", condition.getAccountId())
                 .eq("id", condition.getId());
         if (StringUtils.isNotBlank(condition.getContent())) {
             wrapper.set("content", condition.getContent());

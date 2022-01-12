@@ -32,7 +32,7 @@ public class Favor implements Serializable {
     /**
      * os账号
      */
-    private String accountId;
+    private String phone;
 
     /**
      * 内容类型

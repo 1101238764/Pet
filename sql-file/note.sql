@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
-Source Server Version : 80025
-Source Host           : localhost:3306
-Source Database       : utils
+Source Server         : 远程NALA精灵
+Source Server Version : 50735
+Source Host           : 106.55.153.91:30001
+Source Database       : simba_mls
 
 Target Server Type    : MYSQL
-Target Server Version : 80025
+Target Server Version : 50735
 File Encoding         : 65001
 
-Date: 2022-01-11 18:01:49
+Date: 2022-01-12 12:16:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,13 +20,13 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `note`;
 CREATE TABLE `note` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '逻辑主键',
-  `acc_id` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '逻辑主键',
+  `phone` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `content` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
   `notify_time` datetime DEFAULT NULL COMMENT '提醒时间',
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` int DEFAULT NULL COMMENT '状态 0 草稿 1 待执行  2 已完成 -1 删除 ',
+  `status` int(11) DEFAULT NULL COMMENT '状态 0 草稿 1 待执行  2 已完成 -1 删除 ',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='备忘录';
 
